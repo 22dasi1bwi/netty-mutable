@@ -15,6 +15,16 @@ class NettyMutableController {
         return HttpResponse.ok()
     }
 
+    @Get("/mutateUriTwice")
+    fun mutateUriOfNettyRequestTwice(request: HttpRequest<*>): HttpResponse<String> {
+        val mutatedRequest = request.mutate().uri {
+            it.path("first-mutate")
+        }.mutate().uri {
+            it.path("second-mutate")
+        }
+        return HttpResponse.ok(mutatedRequest.path)
+    }
+
     @Get("/mutateonce")
     fun mutateNettyRequestOnce(request: HttpRequest<*>): HttpResponse<String> {
         request.mutate()
